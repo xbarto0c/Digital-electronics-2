@@ -20,12 +20,15 @@
  * directives. This is a common mistake.
  */
 #define LED_GREEN   PB5 // AVR pin where green LED is connected, nahradí LED_GREEN PB5
-#define SHORT_DELAY 250 // Delay in milliseconds
+#define SHORT_DELAY 1000 // Delay in milliseconds
+#define LONG_DELAY 2000 // Delay in milliseconds
 #ifndef F_CPU           // Preprocessor directive allows for conditional
                         // compilation. The #ifndef means "if not defined".
 # define F_CPU 16000000 // CPU frequency in Hz required for delay
 #endif                  // The #ifndef directive must be closed by #endif
-
+typedef int bool;
+#define true 1
+#define false 0
 /* Includes ----------------------------------------------------------*/
 /* Include another C language file into the current file at the location
  * of the #include statement prior to compiling the source code.
@@ -44,16 +47,25 @@ int main(void)
     // Set pin as output in Data Direction Register
     // DDRB = DDRB or 0010 0000
     DDRB = DDRB | (1<<LED_GREEN); // posunutí jednièky o PB5 (= 5) na pozici pátého bitu, bitový 'or' s pùvodním DDRB
-
     // Set pin LOW in Data Register (LED off)
     // PORTB = PORTB and 1101 1111
+	bool first_run = true;
     PORTB = PORTB & ~(1<<LED_GREEN); // na port PB5 zapsat '1', bitový 'and' s pùvodním DDRB
 
     // Infinite loop
     while (1)
     {
         // Pause several milliseconds
-        _delay_ms(SHORT_DELAY);
+        if(first_run) 
+		{
+			_delay_ms(SHORT_DELAY);
+			first_run = !first_run;
+		}
+		else 
+		{
+			_delay_ms(LONG_DELAY);
+			first_run = !first_run;
+		}
 
         // Invert LED in Data Register
         // PORTB = PORTB xor 0010 0000

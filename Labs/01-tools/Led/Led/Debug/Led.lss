@@ -3,29 +3,29 @@ Led.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  00000100  2**0
+  0 .data         00000000  00800100  00800100  00000136  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000000ac  00000000  00000000  00000054  2**1
+  1 .text         000000e2  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000100  2**0
+  2 .comment      00000030  00000000  00000000  00000136  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000130  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000168  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000020  00000000  00000000  00000170  2**0
+  4 .debug_aranges 00000020  00000000  00000000  000001a8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   000006fd  00000000  00000000  00000190  2**0
+  5 .debug_info   00000750  00000000  00000000  000001c8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 0000065e  00000000  00000000  0000088d  2**0
+  6 .debug_abbrev 0000067e  00000000  00000000  00000918  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000025b  00000000  00000000  00000eeb  2**0
+  7 .debug_line   0000027d  00000000  00000000  00000f96  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000024  00000000  00000000  00001148  2**2
+  8 .debug_frame  00000024  00000000  00000000  00001214  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000399  00000000  00000000  0000116c  2**0
+  9 .debug_str    000003ad  00000000  00000000  00001238  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000048  00000000  00000000  00001505  2**0
+ 10 .debug_loc    000000d4  00000000  00000000  000015e5  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000010  00000000  00000000  0000154d  2**0
+ 11 .debug_ranges 00000010  00000000  00000000  000016b9  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -66,7 +66,7 @@ Disassembly of section .text:
   70:	de bf       	out	0x3e, r29	; 62
   72:	cd bf       	out	0x3d, r28	; 61
   74:	0e 94 40 00 	call	0x80	; 0x80 <main>
-  78:	0c 94 54 00 	jmp	0xa8	; 0xa8 <_exit>
+  78:	0c 94 6f 00 	jmp	0xde	; 0xde <_exit>
 
 0000007c <__bad_interrupt>:
   7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -81,42 +81,89 @@ int main(void)
   80:	84 b1       	in	r24, 0x04	; 4
   82:	80 62       	ori	r24, 0x20	; 32
   84:	84 b9       	out	0x04, r24	; 4
-
     // Set pin LOW in Data Register (LED off)
     // PORTB = PORTB and 1101 1111
+	bool first_run = true;
     PORTB = PORTB & ~(1<<LED_GREEN); // na port PB5 zapsat '1', bitový 'and' s pùvodním DDRB
   86:	85 b1       	in	r24, 0x05	; 5
   88:	8f 7d       	andi	r24, 0xDF	; 223
   8a:	85 b9       	out	0x05, r24	; 5
+    // Set pin as output in Data Direction Register
+    // DDRB = DDRB or 0010 0000
+    DDRB = DDRB | (1<<LED_GREEN); // posunutí jednièky o PB5 (= 5) na pozici pátého bitu, bitový 'or' s pùvodním DDRB
+    // Set pin LOW in Data Register (LED off)
+    // PORTB = PORTB and 1101 1111
+	bool first_run = true;
+  8c:	21 e0       	ldi	r18, 0x01	; 1
+  8e:	30 e0       	ldi	r19, 0x00	; 0
+
+    // Infinite loop
+    while (1)
+    {
+        // Pause several milliseconds
+        if(first_run) 
+  90:	21 15       	cp	r18, r1
+  92:	31 05       	cpc	r19, r1
+  94:	81 f0       	breq	.+32     	; 0xb6 <main+0x36>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-  8c:	2f ef       	ldi	r18, 0xFF	; 255
-  8e:	84 e3       	ldi	r24, 0x34	; 52
-  90:	9c e0       	ldi	r25, 0x0C	; 12
-  92:	21 50       	subi	r18, 0x01	; 1
-  94:	80 40       	sbci	r24, 0x00	; 0
-  96:	90 40       	sbci	r25, 0x00	; 0
-  98:	e1 f7       	brne	.-8      	; 0x92 <main+0x12>
-  9a:	00 c0       	rjmp	.+0      	; 0x9c <main+0x1c>
-  9c:	00 00       	nop
-        // Pause several milliseconds
-        _delay_ms(SHORT_DELAY);
+  96:	4f ef       	ldi	r20, 0xFF	; 255
+  98:	83 ed       	ldi	r24, 0xD3	; 211
+  9a:	90 e3       	ldi	r25, 0x30	; 48
+  9c:	41 50       	subi	r20, 0x01	; 1
+  9e:	80 40       	sbci	r24, 0x00	; 0
+  a0:	90 40       	sbci	r25, 0x00	; 0
+  a2:	e1 f7       	brne	.-8      	; 0x9c <main+0x1c>
+  a4:	00 c0       	rjmp	.+0      	; 0xa6 <main+0x26>
+  a6:	00 00       	nop
+		{
+			_delay_ms(SHORT_DELAY);
+			first_run = !first_run;
+  a8:	81 e0       	ldi	r24, 0x01	; 1
+  aa:	23 2b       	or	r18, r19
+  ac:	09 f0       	breq	.+2      	; 0xb0 <main+0x30>
+  ae:	80 e0       	ldi	r24, 0x00	; 0
+  b0:	28 2f       	mov	r18, r24
+  b2:	30 e0       	ldi	r19, 0x00	; 0
+  b4:	0f c0       	rjmp	.+30     	; 0xd4 <main+0x54>
+  b6:	4f ef       	ldi	r20, 0xFF	; 255
+  b8:	87 ea       	ldi	r24, 0xA7	; 167
+  ba:	91 e6       	ldi	r25, 0x61	; 97
+  bc:	41 50       	subi	r20, 0x01	; 1
+  be:	80 40       	sbci	r24, 0x00	; 0
+  c0:	90 40       	sbci	r25, 0x00	; 0
+  c2:	e1 f7       	brne	.-8      	; 0xbc <main+0x3c>
+  c4:	00 c0       	rjmp	.+0      	; 0xc6 <main+0x46>
+  c6:	00 00       	nop
+		}
+		else 
+		{
+			_delay_ms(LONG_DELAY);
+			first_run = !first_run;
+  c8:	81 e0       	ldi	r24, 0x01	; 1
+  ca:	23 2b       	or	r18, r19
+  cc:	09 f0       	breq	.+2      	; 0xd0 <main+0x50>
+  ce:	80 e0       	ldi	r24, 0x00	; 0
+  d0:	28 2f       	mov	r18, r24
+  d2:	30 e0       	ldi	r19, 0x00	; 0
+		}
 
         // Invert LED in Data Register
         // PORTB = PORTB xor 0010 0000
         PORTB = PORTB ^ (1<<LED_GREEN);
-  9e:	95 b1       	in	r25, 0x05	; 5
-  a0:	80 e2       	ldi	r24, 0x20	; 32
-  a2:	89 27       	eor	r24, r25
-  a4:	85 b9       	out	0x05, r24	; 5
-  a6:	f2 cf       	rjmp	.-28     	; 0x8c <main+0xc>
+  d4:	95 b1       	in	r25, 0x05	; 5
+  d6:	80 e2       	ldi	r24, 0x20	; 32
+  d8:	89 27       	eor	r24, r25
+  da:	85 b9       	out	0x05, r24	; 5
+    }
+  dc:	d9 cf       	rjmp	.-78     	; 0x90 <main+0x10>
 
-000000a8 <_exit>:
-  a8:	f8 94       	cli
+000000de <_exit>:
+  de:	f8 94       	cli
 
-000000aa <__stop_program>:
-  aa:	ff cf       	rjmp	.-2      	; 0xaa <__stop_program>
+000000e0 <__stop_program>:
+  e0:	ff cf       	rjmp	.-2      	; 0xe0 <__stop_program>
