@@ -48,7 +48,8 @@ int main(void)
     // PORTB = PORTB and 1101 1111
     PORTB = PORTB & ~(1<<LED_GREEN);
     
-    // definice datového typu bool, tj. proměnná obsahující buď hodnotu '1' - pravda, nebo '0' - nepravda
+    /* definice datového typu bool, tj. proměnná, 
+    	obsahující buď logickou hodnotu '1' - pravda, nebo '0' - nepravda */
     typedef int bool;
     #define true 1
     #define false 0
@@ -58,15 +59,19 @@ int main(void)
     while (1)
     {
         // Pause several milliseconds
-        if(odd_run) // pokud cyklem probíhá po (2n+1)-té (lichý počet iterací), blikne dioda krátce, pokud po 2n-té (sudý počet iterací), blikne dioda dlouze
+	/* pokud cyklem probíhá po (2n+1)-té (lichý počet iterací),
+	   blikne dioda krátce, pokud po 2n-té (sudý počet iterací),
+	   blikne dioda dlouze
+	*/
+        if(odd_run) // 
 		{
-			_delay_ms(500);
-			odd_run = !odd_run;
+		   _delay_ms(500);
+		   odd_run = !odd_run;
 		}
 		else 
 		{
-			_delay_ms(1000);
-			odd_run = !odd_run;
+		   _delay_ms(1000);
+		   odd_run = !odd_run;
 		}
 
         // Invert LED in Data Register
