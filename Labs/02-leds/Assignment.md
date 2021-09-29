@@ -76,7 +76,8 @@ int main(void)
     while (1)
     {
         // Pause several milliseconds
-        if(bit_is_clear(PIND, PUSHBUTTON)) // Reading the input state of the pushbutton pin
+        if(bit_is_clear(PIND, PUSHBUTTON)) // Reading the input state of the pushbutton pin,
+					      if low, blink the LEDs
 	{
 	   _delay_ms(BLINK_DELAY); // Blink the LEDs in an alternating manner
            PORTB = PORTB ^ (1<<LED_GREEN);
