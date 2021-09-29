@@ -22,9 +22,9 @@ Link to your `Digital-electronics-2` GitHub repository:
 | **DDRB** | **PORTB** | **Direction** | **Internal pull-up resistor** | **Description** |
 | :-: | :-: | :-: | :-: | :-- |
 | 0 | 0 | input | no | Tri-state, high-impedance |
-| 0 | 1 | input | no| |
-| 1 | 0 | output | no | |
-| 1 | 1 | output | no | |
+| 0 | 1 | input | yes| Pin set as input, with a pullup resistor attached |
+| 1 | 0 | output | no | Output Low (sink) |
+| 1 | 1 | output | no | Output High (Source) |
 
 2. Part of the C code listing with syntax highlighting, which blinks alternately with a pair of LEDs; let one LED is connected to port B and the other to port C:
 
@@ -39,12 +39,20 @@ int main(void)
 
     // Configure the second LED at port C
     // WRITE YOUR CODE HERE
-
+    DDRC = DDRC | (1<<LED_BLUE);	 // Set the pin as output
+	 PORTC = ~(PORTC & (1<<LED_BLUE));  // Set the LED pin "HIGH" (LED off)
     // Infinite loop
     while (1)
     {
         // Pause several milliseconds
-        _delay_ms(BLINK_DELAY);
+       _delay_ms(BLINK_DELAY);
+		 PORTB = PORTB ^ (1<<LED_GREEN);
+		 _delay_ms(BLINK_DELAY);
+		 PORTC = PORTC ^ (1<<LED_BLUE);
+		 _delay_ms(BLINK_DELAY);
+		 PORTB = PORTB ^ (1<<LED_GREEN);
+		 _delay_ms(BLINK_DELAY);
+		 PORTC = PORTC ^ (1<<LED_BLUE);
 
         // WRITE YOUR CODE HERE
     }
@@ -62,13 +70,24 @@ int main(void)
 ```c
     // Configure Push button at port D and enable internal pull-up resistor
     // WRITE YOUR CODE HERE
-
+    DDRD = DDRD | (0<<PUSHBUTTON); // Set the pin as input
+	 PORTD = PORTD | (1<<PUSHBUTTON); // Attach pullup resistor to the pushbutton pin
     // Infinite loop
     while (1)
     {
         // Pause several milliseconds
-        _delay_ms(BLINK_DELAY);
-
+        if(bit_is_clear(PIND, PD7)) // Reading the input state of the pushbutton pin
+		  {
+			 _delay_ms(BLINK_DELAY); // Blink the LEDs in an alternating manner
+			 PORTB = PORTB ^ (1<<LED_GREEN);
+			 _delay_ms(BLINK_DELAY);
+			 PORTC = PORTC ^ (1<<LED_BLUE);
+			 _delay_ms(BLINK_DELAY);
+			 PORTB = PORTB ^ (1<<LED_GREEN);
+			 _delay_ms(BLINK_DELAY);
+			 PORTC = PORTC ^ (1<<LED_BLUE);
+			 loop_until_bit_is_clear(PIND, BUTTON); // Pushbutton debounce
+		  }
         // WRITE YOUR CODE HERE
     }
 ```
