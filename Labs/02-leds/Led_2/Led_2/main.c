@@ -61,6 +61,7 @@ int main(void)
 			PORTB = PORTB ^ (1<<LED_GREEN);
 			_delay_ms(BLINK_DELAY);
 			PORTC = PORTC ^ (1<<LED_BLUE);
+			loop_until_bit_is_clear(PIND, PUSHBUTTON);
 		}
     }
 
