@@ -39,22 +39,21 @@ int main(void)
 
     // Configure the second LED at port C
     // WRITE YOUR CODE HERE
-    DDRC = DDRC | (1<<LED_BLUE);	 // Set the pin as output
+    DDRC = DDRC | (1<<LED_BLUE);       // Set the pin as output
     PORTC = ~(PORTC & (1<<LED_BLUE));  // Set the LED pin "HIGH" (LED off)
     // Infinite loop
     while (1)
     {
         // Pause several milliseconds
        _delay_ms(BLINK_DELAY);
-       PORTB = PORTB ^ (1<<LED_GREEN);
-       _delay_ms(BLINK_DELAY);
-       PORTC = PORTC ^ (1<<LED_BLUE);
-       _delay_ms(BLINK_DELAY);
-       PORTB = PORTB ^ (1<<LED_GREEN);
-       _delay_ms(BLINK_DELAY);
-       PORTC = PORTC ^ (1<<LED_BLUE);
-
         // WRITE YOUR CODE HERE
+       PORTB = PORTB ^ (1<<LED_GREEN);
+       _delay_ms(BLINK_DELAY);
+       PORTC = PORTC ^ (1<<LED_BLUE);
+       _delay_ms(BLINK_DELAY);
+       PORTB = PORTB ^ (1<<LED_GREEN);
+       _delay_ms(BLINK_DELAY);
+       PORTC = PORTC ^ (1<<LED_BLUE);
     }
 
     // Will never reach this
@@ -70,12 +69,12 @@ int main(void)
 ```c
     // Configure Push button at port D and enable internal pull-up resistor
     // WRITE YOUR CODE HERE
-    DDRD = DDRD | (0<<PUSHBUTTON); // Set the pin as input
+    DDRD = DDRD | (0<<PUSHBUTTON);   // Set the pin as input
     PORTD = PORTD | (1<<PUSHBUTTON); // Attach pullup resistor to the pushbutton pin
     // Infinite loop
     while (1)
     {
-        // Pause several milliseconds
+        // WRITE YOUR CODE HERE
         if(bit_is_clear(PIND, PUSHBUTTON)) // Reading the input state of the pushbutton pin,
 					   // if low, blink the LEDs
 	{
@@ -89,7 +88,6 @@ int main(void)
            PORTC = PORTC ^ (1<<LED_BLUE);
            loop_until_bit_is_clear(PIND, PUSHBUTTON); // Pushbutton debounce
 	}
-        // WRITE YOUR CODE HERE
     }
 ```
 
