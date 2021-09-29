@@ -1,8 +1,8 @@
-# Lab 2: YOUR_FIRSTNAME FAMILYNAME
+# Lab 2: Jan Bartoň
 
 Link to your `Digital-electronics-2` GitHub repository:
 
-   [https://github.com/...](https://github.com/...)
+   [https://github.com/xbarto0c/Digital-electronics-2](https://github.com/xbarto0c/Digital-electronics-2)
 
 
 ### Active-low and active-high LEDs
@@ -12,12 +12,12 @@ Link to your `Digital-electronics-2` GitHub repository:
 | **DDRB** | **Description** |
 | :-: | :-- |
 | 0 | Input pin |
-| 1 | |
+| 1 | Output pin|
 
 | **PORTB** | **Description** |
 | :-: | :-- |
 | 0 | Output low value |
-| 1 | |
+| 1 | Output high value |
 
 | **DDRB** | **PORTB** | **Direction** | **Internal pull-up resistor** | **Description** |
 | :-: | :-: | :-: | :-: | :-- |
