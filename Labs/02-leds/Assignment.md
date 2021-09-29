@@ -77,17 +77,17 @@ int main(void)
     {
         // Pause several milliseconds
         if(bit_is_clear(PIND, PD7)) // Reading the input state of the pushbutton pin
-		  {
-		     _delay_ms(BLINK_DELAY); // Blink the LEDs in an alternating manner
-		     PORTB = PORTB ^ (1<<LED_GREEN);
-		     _delay_ms(BLINK_DELAY);
-		     PORTC = PORTC ^ (1<<LED_BLUE);
-		     _delay_ms(BLINK_DELAY);
-	             PORTB = PORTB ^ (1<<LED_GREEN);
-		     _delay_ms(BLINK_DELAY);
-		     PORTC = PORTC ^ (1<<LED_BLUE);
-		     loop_until_bit_is_clear(PIND, BUTTON); // Pushbutton debounce
-		  }
+	{
+	   _delay_ms(BLINK_DELAY); // Blink the LEDs in an alternating manner
+           PORTB = PORTB ^ (1<<LED_GREEN);
+	   _delay_ms(BLINK_DELAY);
+	   PORTC = PORTC ^ (1<<LED_BLUE);
+           _delay_ms(BLINK_DELAY);
+	   PORTB = PORTB ^ (1<<LED_GREEN);
+           _delay_ms(BLINK_DELAY);
+           PORTC = PORTC ^ (1<<LED_BLUE);
+           loop_until_bit_is_clear(PIND, BUTTON); // Pushbutton debounce
+	}
         // WRITE YOUR CODE HERE
     }
 ```
