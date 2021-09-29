@@ -76,7 +76,7 @@ int main(void)
     while (1)
     {
         // Pause several milliseconds
-        if(bit_is_clear(PIND, PD7)) // Reading the input state of the pushbutton pin
+        if(bit_is_clear(PIND, PUSHBUTTON)) // Reading the input state of the pushbutton pin
 	{
 	   _delay_ms(BLINK_DELAY); // Blink the LEDs in an alternating manner
            PORTB = PORTB ^ (1<<LED_GREEN);
@@ -86,7 +86,7 @@ int main(void)
 	   PORTB = PORTB ^ (1<<LED_GREEN);
            _delay_ms(BLINK_DELAY);
            PORTC = PORTC ^ (1<<LED_BLUE);
-           loop_until_bit_is_clear(PIND, BUTTON); // Pushbutton debounce
+           loop_until_bit_is_clear(PIND, PUSHBUTTON); // Pushbutton debounce
 	}
         // WRITE YOUR CODE HERE
     }
@@ -97,4 +97,4 @@ int main(void)
 
 1. Scheme of Knight Rider application, i.e. connection of AVR device, five LEDs, resistors, one push button, and supply voltage. The image can be drawn on a computer or by hand. Always name all components and their values!
 
-   ![your figure]()
+   ![Labs/02-leds/knight_rider.jpg](Labs/02-leds/knight_rider.jpg)
