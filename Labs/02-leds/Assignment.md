@@ -40,7 +40,7 @@ int main(void)
     // Configure the second LED at port C
     // WRITE YOUR CODE HERE
     DDRC = DDRC | (1<<LED_BLUE);	 // Set the pin as output
-	 PORTC = ~(PORTC & (1<<LED_BLUE));  // Set the LED pin "HIGH" (LED off)
+    PORTC = ~(PORTC & (1<<LED_BLUE));  // Set the LED pin "HIGH" (LED off)
     // Infinite loop
     while (1)
     {
@@ -71,7 +71,7 @@ int main(void)
     // Configure Push button at port D and enable internal pull-up resistor
     // WRITE YOUR CODE HERE
     DDRD = DDRD | (0<<PUSHBUTTON); // Set the pin as input
-	 PORTD = PORTD | (1<<PUSHBUTTON); // Attach pullup resistor to the pushbutton pin
+    PORTD = PORTD | (1<<PUSHBUTTON); // Attach pullup resistor to the pushbutton pin
     // Infinite loop
     while (1)
     {
