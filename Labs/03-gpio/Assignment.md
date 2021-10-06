@@ -33,10 +33,19 @@ Link to your `Digital-electronics-2` GitHub repository:
     // Infinite loop
     while (1)
     {
-        // Pause several milliseconds
-        _delay_ms(BLINK_DELAY);
-
-        // WRITE YOUR CODE HERE
+        if (GPIO_read(&PIND, PUSHBUTTON))
+		{
+			// Pause several milliseconds
+			_delay_ms(BLINK_DELAY);
+			// WRITE YOUR CODE HERE
+			GPIO_write_low(&PORTC, LED_BLUE);
+			_delay_ms(BLINK_DELAY);
+			GPIO_write_high(&PORTC, LED_BLUE);
+			_delay_ms(BLINK_DELAY);
+			GPIO_write_high(&PORTB, LED_GREEN);
+			_delay_ms(BLINK_DELAY);
+			GPIO_write_low(&PORTB, LED_GREEN);
+		}
     }
 ```
 
