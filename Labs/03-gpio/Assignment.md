@@ -1,8 +1,8 @@
-# Lab 3: YOUR_FIRSTNAME FAMILYNAME
+# Lab 3: Jan Bartoň
 
 Link to your `Digital-electronics-2` GitHub repository:
 
-   [https://github.com/...](https://github.com/...)
+   [https://github.com/xbarto0c/Digital-electronics-2](https://github.com/xbarto0c/Digital-electronics-2)
 
 
 ### Data types in C
@@ -12,9 +12,9 @@ Link to your `Digital-electronics-2` GitHub repository:
 | **Data type** | **Number of bits** | **Range** | **Description** |
 | :-: | :-: | :-: | :-- | 
 | `uint8_t`  | 8 | 0, 1, ..., 255 | Unsigned 8-bit integer |
-| `int8_t`   |  |  |  |
-| `uint16_t` |  |  |  |
-| `int16_t`  |  |  |  |
+| `int8_t`   | 8| -128,127 | Signed 8-bit integer |
+| `uint16_t` | 16 |  |  |
+| `int16_t`  | 16 |  |  |
 | `float`    |  | -3.4e+38, ..., 3.4e+38 | Single-precision floating-point |
 | `void`     |  |  |  |
 
