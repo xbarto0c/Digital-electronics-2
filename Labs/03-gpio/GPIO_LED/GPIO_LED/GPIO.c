@@ -81,10 +81,10 @@ uint8_t GPIO_read(volatile uint8_t *reg_name, uint8_t pin_num)
 {
 	if((*reg_name & (1 << pin_num)) == (1 << pin_num)) 
 	{
-		return 1;
+		return(0);
 	} 
 	else 
 	{
-		return 0;
+		return(1);
 	}
 }

@@ -3,29 +3,29 @@ GPIO_LED.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  00000132  2**0
+  0 .data         00000000  00800100  00800100  0000021c  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000000de  00000000  00000000  00000054  2**1
+  1 .text         000001c8  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000132  2**0
+  2 .comment      00000030  00000000  00000000  0000021c  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000164  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  0000024c  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000070  00000000  00000000  000001a4  2**0
+  4 .debug_aranges 00000070  00000000  00000000  0000028c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   0000095e  00000000  00000000  00000214  2**0
+  5 .debug_info   00000b1e  00000000  00000000  000002fc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 0000073c  00000000  00000000  00000b72  2**0
+  6 .debug_abbrev 00000733  00000000  00000000  00000e1a  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000039e  00000000  00000000  000012ae  2**0
+  7 .debug_line   000003f1  00000000  00000000  0000154d  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000000a8  00000000  00000000  0000164c  2**2
+  8 .debug_frame  000000a8  00000000  00000000  00001940  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000043e  00000000  00000000  000016f4  2**0
+  9 .debug_str    0000043e  00000000  00000000  000019e8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000092  00000000  00000000  00001b32  2**0
+ 10 .debug_loc    000001b2  00000000  00000000  00001e26  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000050  00000000  00000000  00001bc4  2**0
+ 11 .debug_ranges 00000050  00000000  00000000  00001fd8  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -65,19 +65,19 @@ Disassembly of section .text:
   6e:	d8 e0       	ldi	r29, 0x08	; 8
   70:	de bf       	out	0x3e, r29	; 62
   72:	cd bf       	out	0x3d, r28	; 61
-  74:	0e 94 59 00 	call	0xb2	; 0xb2 <main>
-  78:	0c 94 6d 00 	jmp	0xda	; 0xda <_exit>
+  74:	0e 94 89 00 	call	0x112	; 0x112 <main>
+  78:	0c 94 e2 00 	jmp	0x1c4	; 0x1c4 <_exit>
 
 0000007c <__bad_interrupt>:
   7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 00000080 <GPIO_config_output>:
+/**********************************************************************
+ * Function: GPIO_toggle()
  **********************************************************************/
-void GPIO_config_input_pullup(volatile uint8_t *reg_name, uint8_t pin_num)
+void GPIO_toggle(volatile uint8_t *reg_name, uint8_t pin_num)
 {
-    *reg_name = *reg_name & ~(1<<pin_num);  // Data Direction Register
-    reg_name++;                     // Change pointer to Data Register
-    *reg_name = *reg_name | (1<<pin_num);   // Data Register
+	*reg_name = *reg_name  ^ (1<<pin_num);
   80:	fc 01       	movw	r30, r24
   82:	40 81       	ld	r20, Z
   84:	21 e0       	ldi	r18, 0x01	; 1
@@ -91,63 +91,207 @@ void GPIO_config_input_pullup(volatile uint8_t *reg_name, uint8_t pin_num)
   94:	20 83       	st	Z, r18
   96:	08 95       	ret
 
-00000098 <GPIO_write_low>:
- * Input:    reg_name - Address of Port Register, such as &PORTB
- *           pin_num - Pin designation in the interval 0 to 7
- * Returns:  none
- **********************************************************************/
-void GPIO_write_low(volatile uint8_t *reg_name, uint8_t pin_num)
-{
+00000098 <GPIO_config_input_pullup>:
   98:	fc 01       	movw	r30, r24
-    *reg_name = *reg_name & ~(1<<pin_num);
-  9a:	90 81       	ld	r25, Z
+  9a:	80 81       	ld	r24, Z
   9c:	21 e0       	ldi	r18, 0x01	; 1
   9e:	30 e0       	ldi	r19, 0x00	; 0
-  a0:	02 c0       	rjmp	.+4      	; 0xa6 <GPIO_write_low+0xe>
+  a0:	02 c0       	rjmp	.+4      	; 0xa6 <GPIO_config_input_pullup+0xe>
   a2:	22 0f       	add	r18, r18
   a4:	33 1f       	adc	r19, r19
   a6:	6a 95       	dec	r22
-  a8:	e2 f7       	brpl	.-8      	; 0xa2 <GPIO_write_low+0xa>
-  aa:	20 95       	com	r18
-  ac:	29 23       	and	r18, r25
-  ae:	20 83       	st	Z, r18
-  b0:	08 95       	ret
+  a8:	e2 f7       	brpl	.-8      	; 0xa2 <GPIO_config_input_pullup+0xa>
+  aa:	92 2f       	mov	r25, r18
+  ac:	90 95       	com	r25
+  ae:	89 23       	and	r24, r25
+  b0:	80 83       	st	Z, r24
+  b2:	81 81       	ldd	r24, Z+1	; 0x01
+  b4:	28 2b       	or	r18, r24
+  b6:	21 83       	std	Z+1, r18	; 0x01
+  b8:	08 95       	ret
 
-000000b2 <main>:
+000000ba <GPIO_write_low>:
+  ba:	fc 01       	movw	r30, r24
+  bc:	90 81       	ld	r25, Z
+  be:	21 e0       	ldi	r18, 0x01	; 1
+  c0:	30 e0       	ldi	r19, 0x00	; 0
+  c2:	02 c0       	rjmp	.+4      	; 0xc8 <GPIO_write_low+0xe>
+  c4:	22 0f       	add	r18, r18
+  c6:	33 1f       	adc	r19, r19
+  c8:	6a 95       	dec	r22
+  ca:	e2 f7       	brpl	.-8      	; 0xc4 <GPIO_write_low+0xa>
+  cc:	20 95       	com	r18
+  ce:	29 23       	and	r18, r25
+  d0:	20 83       	st	Z, r18
+  d2:	08 95       	ret
+
+000000d4 <GPIO_write_high>:
+  d4:	fc 01       	movw	r30, r24
+  d6:	40 81       	ld	r20, Z
+  d8:	21 e0       	ldi	r18, 0x01	; 1
+  da:	30 e0       	ldi	r19, 0x00	; 0
+  dc:	02 c0       	rjmp	.+4      	; 0xe2 <GPIO_write_high+0xe>
+  de:	22 0f       	add	r18, r18
+  e0:	33 1f       	adc	r19, r19
+  e2:	6a 95       	dec	r22
+  e4:	e2 f7       	brpl	.-8      	; 0xde <GPIO_write_high+0xa>
+  e6:	24 2b       	or	r18, r20
+  e8:	20 83       	st	Z, r18
+  ea:	08 95       	ret
+
+000000ec <GPIO_read>:
+/**********************************************************************
+ * Function: GPIO_read()
+ **********************************************************************/
+uint8_t GPIO_read(volatile uint8_t *reg_name, uint8_t pin_num)
+{
+	if((*reg_name & (1 << pin_num)) == (1 << pin_num)) 
+  ec:	fc 01       	movw	r30, r24
+  ee:	80 81       	ld	r24, Z
+  f0:	21 e0       	ldi	r18, 0x01	; 1
+  f2:	30 e0       	ldi	r19, 0x00	; 0
+  f4:	02 c0       	rjmp	.+4      	; 0xfa <GPIO_read+0xe>
+  f6:	22 0f       	add	r18, r18
+  f8:	33 1f       	adc	r19, r19
+  fa:	6a 95       	dec	r22
+  fc:	e2 f7       	brpl	.-8      	; 0xf6 <GPIO_read+0xa>
+  fe:	90 e0       	ldi	r25, 0x00	; 0
+ 100:	82 23       	and	r24, r18
+ 102:	93 23       	and	r25, r19
+ 104:	28 17       	cp	r18, r24
+ 106:	39 07       	cpc	r19, r25
+ 108:	11 f4       	brne	.+4      	; 0x10e <GPIO_read+0x22>
+	{
+		return(0);
+ 10a:	80 e0       	ldi	r24, 0x00	; 0
+ 10c:	08 95       	ret
+	} 
+	else 
+	{
+		return(1);
+ 10e:	81 e0       	ldi	r24, 0x01	; 1
+	}
+ 110:	08 95       	ret
+
+00000112 <main>:
  * Returns:  none
  **********************************************************************/
 int main(void)
 {
     // Green LED at port B
     GPIO_config_output(&DDRB, LED_GREEN);
-  b2:	65 e0       	ldi	r22, 0x05	; 5
-  b4:	84 e2       	ldi	r24, 0x24	; 36
-  b6:	90 e0       	ldi	r25, 0x00	; 0
-  b8:	0e 94 40 00 	call	0x80	; 0x80 <GPIO_config_output>
+ 112:	65 e0       	ldi	r22, 0x05	; 5
+ 114:	84 e2       	ldi	r24, 0x24	; 36
+ 116:	90 e0       	ldi	r25, 0x00	; 0
+ 118:	0e 94 40 00 	call	0x80	; 0x80 <GPIO_config_output>
     GPIO_write_low(&PORTB, LED_GREEN);
-  bc:	65 e0       	ldi	r22, 0x05	; 5
-  be:	85 e2       	ldi	r24, 0x25	; 37
-  c0:	90 e0       	ldi	r25, 0x00	; 0
-  c2:	0e 94 4c 00 	call	0x98	; 0x98 <GPIO_write_low>
+ 11c:	65 e0       	ldi	r22, 0x05	; 5
+ 11e:	85 e2       	ldi	r24, 0x25	; 37
+ 120:	90 e0       	ldi	r25, 0x00	; 0
+ 122:	0e 94 5d 00 	call	0xba	; 0xba <GPIO_write_low>
+
+    // Configure the second LED at port C
+	GPIO_config_output(&DDRC, LED_BLUE);
+ 126:	64 e0       	ldi	r22, 0x04	; 4
+ 128:	87 e2       	ldi	r24, 0x27	; 39
+ 12a:	90 e0       	ldi	r25, 0x00	; 0
+ 12c:	0e 94 40 00 	call	0x80	; 0x80 <GPIO_config_output>
+	GPIO_write_high(&PORTC, LED_BLUE);
+ 130:	64 e0       	ldi	r22, 0x04	; 4
+ 132:	88 e2       	ldi	r24, 0x28	; 40
+ 134:	90 e0       	ldi	r25, 0x00	; 0
+ 136:	0e 94 6a 00 	call	0xd4	; 0xd4 <GPIO_write_high>
+
+    // Configure Push button at port D and enable internal pull-up resistor
+	GPIO_config_input_pullup(&DDRD, PUSHBUTTON);
+ 13a:	62 e0       	ldi	r22, 0x02	; 2
+ 13c:	8a e2       	ldi	r24, 0x2A	; 42
+ 13e:	90 e0       	ldi	r25, 0x00	; 0
+ 140:	0e 94 4c 00 	call	0x98	; 0x98 <GPIO_config_input_pullup>
+
+	
+	while (1)
+	{
+		if (GPIO_read(&PIND, PUSHBUTTON))
+ 144:	62 e0       	ldi	r22, 0x02	; 2
+ 146:	89 e2       	ldi	r24, 0x29	; 41
+ 148:	90 e0       	ldi	r25, 0x00	; 0
+ 14a:	0e 94 76 00 	call	0xec	; 0xec <GPIO_read>
+ 14e:	88 23       	and	r24, r24
+ 150:	c9 f3       	breq	.-14     	; 0x144 <main+0x32>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-  c6:	2f ef       	ldi	r18, 0xFF	; 255
-  c8:	89 e6       	ldi	r24, 0x69	; 105
-  ca:	98 e1       	ldi	r25, 0x18	; 24
-  cc:	21 50       	subi	r18, 0x01	; 1
-  ce:	80 40       	sbci	r24, 0x00	; 0
-  d0:	90 40       	sbci	r25, 0x00	; 0
-  d2:	e1 f7       	brne	.-8      	; 0xcc <main+0x1a>
-  d4:	00 c0       	rjmp	.+0      	; 0xd6 <main+0x24>
-  d6:	00 00       	nop
-  d8:	f6 cf       	rjmp	.-20     	; 0xc6 <main+0x14>
+ 152:	2f ef       	ldi	r18, 0xFF	; 255
+ 154:	89 e6       	ldi	r24, 0x69	; 105
+ 156:	98 e1       	ldi	r25, 0x18	; 24
+ 158:	21 50       	subi	r18, 0x01	; 1
+ 15a:	80 40       	sbci	r24, 0x00	; 0
+ 15c:	90 40       	sbci	r25, 0x00	; 0
+ 15e:	e1 f7       	brne	.-8      	; 0x158 <main+0x46>
+ 160:	00 c0       	rjmp	.+0      	; 0x162 <main+0x50>
+ 162:	00 00       	nop
+		{
+			// Pause several milliseconds
+			_delay_ms(BLINK_DELAY);
+			// WRITE YOUR CODE HERE
+			GPIO_write_low(&PORTC, LED_BLUE);
+ 164:	64 e0       	ldi	r22, 0x04	; 4
+ 166:	88 e2       	ldi	r24, 0x28	; 40
+ 168:	90 e0       	ldi	r25, 0x00	; 0
+ 16a:	0e 94 5d 00 	call	0xba	; 0xba <GPIO_write_low>
+ 16e:	2f ef       	ldi	r18, 0xFF	; 255
+ 170:	89 e6       	ldi	r24, 0x69	; 105
+ 172:	98 e1       	ldi	r25, 0x18	; 24
+ 174:	21 50       	subi	r18, 0x01	; 1
+ 176:	80 40       	sbci	r24, 0x00	; 0
+ 178:	90 40       	sbci	r25, 0x00	; 0
+ 17a:	e1 f7       	brne	.-8      	; 0x174 <main+0x62>
+ 17c:	00 c0       	rjmp	.+0      	; 0x17e <main+0x6c>
+ 17e:	00 00       	nop
+			_delay_ms(BLINK_DELAY);
+			GPIO_write_high(&PORTC, LED_BLUE);
+ 180:	64 e0       	ldi	r22, 0x04	; 4
+ 182:	88 e2       	ldi	r24, 0x28	; 40
+ 184:	90 e0       	ldi	r25, 0x00	; 0
+ 186:	0e 94 6a 00 	call	0xd4	; 0xd4 <GPIO_write_high>
+ 18a:	2f ef       	ldi	r18, 0xFF	; 255
+ 18c:	89 e6       	ldi	r24, 0x69	; 105
+ 18e:	98 e1       	ldi	r25, 0x18	; 24
+ 190:	21 50       	subi	r18, 0x01	; 1
+ 192:	80 40       	sbci	r24, 0x00	; 0
+ 194:	90 40       	sbci	r25, 0x00	; 0
+ 196:	e1 f7       	brne	.-8      	; 0x190 <main+0x7e>
+ 198:	00 c0       	rjmp	.+0      	; 0x19a <main+0x88>
+ 19a:	00 00       	nop
+			_delay_ms(BLINK_DELAY);
+			GPIO_write_high(&PORTB, LED_GREEN);
+ 19c:	65 e0       	ldi	r22, 0x05	; 5
+ 19e:	85 e2       	ldi	r24, 0x25	; 37
+ 1a0:	90 e0       	ldi	r25, 0x00	; 0
+ 1a2:	0e 94 6a 00 	call	0xd4	; 0xd4 <GPIO_write_high>
+ 1a6:	2f ef       	ldi	r18, 0xFF	; 255
+ 1a8:	89 e6       	ldi	r24, 0x69	; 105
+ 1aa:	98 e1       	ldi	r25, 0x18	; 24
+ 1ac:	21 50       	subi	r18, 0x01	; 1
+ 1ae:	80 40       	sbci	r24, 0x00	; 0
+ 1b0:	90 40       	sbci	r25, 0x00	; 0
+ 1b2:	e1 f7       	brne	.-8      	; 0x1ac <main+0x9a>
+ 1b4:	00 c0       	rjmp	.+0      	; 0x1b6 <main+0xa4>
+ 1b6:	00 00       	nop
+			_delay_ms(BLINK_DELAY);
+			GPIO_write_low(&PORTB, LED_GREEN);
+ 1b8:	65 e0       	ldi	r22, 0x05	; 5
+ 1ba:	85 e2       	ldi	r24, 0x25	; 37
+ 1bc:	90 e0       	ldi	r25, 0x00	; 0
+ 1be:	0e 94 5d 00 	call	0xba	; 0xba <GPIO_write_low>
+ 1c2:	c0 cf       	rjmp	.-128    	; 0x144 <main+0x32>
 
-000000da <_exit>:
-  da:	f8 94       	cli
+000001c4 <_exit>:
+ 1c4:	f8 94       	cli
 
-000000dc <__stop_program>:
-  dc:	ff cf       	rjmp	.-2      	; 0xdc <__stop_program>
+000001c6 <__stop_program>:
+ 1c6:	ff cf       	rjmp	.-2      	; 0x1c6 <__stop_program>
