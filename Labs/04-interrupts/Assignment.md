@@ -1,4 +1,4 @@
-# Lab 4: YOUR_FIRSTNAME FAMILYNAME
+# Lab 4: Jan Bartoň
 
 Link to your `Digital-electronics-2` GitHub repository:
 
@@ -19,8 +19,8 @@ Link to your `Digital-electronics-2` GitHub repository:
 ### Timer library
 
 1. In your words, describe the difference between common C function and interrupt service routine.
-   * Function
-   * Interrupt service routine
+   * Function - gets executed, whenever we call it from inside the running program, can do complex operations, unlike ISR
+   * Interrupt service routine - gets executed, whenever a defined hardware event occurs (i.e. counter overflow), should be kept as small as possible
 
 2. Part of the header file listing with syntax highlighting, which defines settings for Timer/Counter0:
 
