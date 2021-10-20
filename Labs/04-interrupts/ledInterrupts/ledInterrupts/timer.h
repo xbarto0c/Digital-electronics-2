@@ -28,12 +28,12 @@
  * @brief Defines prescaler CPU frequency values for Timer/Counter0.
  * @note  F_CPU = 16 MHz
  */
-#define TIM0_stop()             TCCR0B &= ~((1<<CS12) | (1<<CS11) | (1<<CS10));         // 000 --> STOP
-#define TIM0_overflow_4ms()     TCCR0B &= ~((1<<CS12) | (1<<CS11)); TCCR0B |= (1<<CS10);// 001 --> 1
-#define TIM0_overflow_33ms()    TCCR0B &= ~((1<<CS12) | (1<<CS10)); TCCR0B |= (1<<CS11);// 010 --> 8
-#define TIM0_overflow_262ms()   TCCR0B &= ~(1<<CS12); TCCR0B |= (1<<CS11) | (1<<CS10);  // 011 --> 64
-#define TIM0_overflow_1s()      TCCR0B &= ~((1<<CS11) | (1<<CS10)); TCCR0B |= (1<<CS12);// 100 --> 256
-#define TIM0_overflow_4s()      TCCR0B &= ~(1<<CS11); TCCR0B |= (1<<CS12) | (1<<CS10);  // 101 --> 1024
+#define TIM0_stop()             TCCR0B &= ~((1<<CS02) | (1<<CS01) | (1<<CS00));         // 000 --> STOP
+#define TIM0_overflow_4ms()     TCCR0B &= ~((1<<CS02) | (1<<CS01)); TCCR0B |= (1<<CS00);// 001 --> 1
+#define TIM0_overflow_33ms()    TCCR0B &= ~((1<<CS02) | (1<<CS00)); TCCR0B |= (1<<CS01);// 010 --> 8
+#define TIM0_overflow_262ms()   TCCR0B &= ~(1<<CS02); TCCR0B |= (1<<CS01) | (1<<CS00);  // 011 --> 64
+#define TIM0_overflow_1s()      TCCR0B &= ~((1<<CS01) | (1<<CS00)); TCCR0B |= (1<<CS02);// 100 --> 256
+#define TIM0_overflow_4s()      TCCR0B &= ~(1<<CS01); TCCR0B |= (1<<CS02) | (1<<CS00);  // 101 --> 1024
 
 /**
  * @brief Defines interrupt enable/disable modes for Timer/Counter0.
