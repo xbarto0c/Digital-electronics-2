@@ -1,8 +1,8 @@
-# Lab 5: YOUR_FIRSTNAME FAMILYNAME
+# Lab 5: Jan Bartoň
 
 Link to your `Digital-electronics-2` GitHub repository:
 
-   [https://github.com/...](https://github.com/...)
+   [https://github.com/xbarto0c/Digital-electronics-2](https://github.com/xbarto0c/Digital-electronics-2)
 
 
 ### 7-segment library
