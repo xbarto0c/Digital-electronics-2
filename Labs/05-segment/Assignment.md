@@ -11,37 +11,53 @@ Link to your `Digital-electronics-2` GitHub repository:
    * CC SSD
    * CA SSD
 
-2. Code listing with syntax highlighting of two interrupt service routines (`TIMER0_OVF_vect`, `TIMER0_OVF_vect`) from counter application with at least two digits, ie. values from 00 to 59:
+2. Code listing with syntax highlighting of two interrupt service routines (`TIMER0_OVF_vect`, `TIMER1_OVF_vect`) from counter application with at least two digits, ie. values from 00 to 59:
 
 ```c
 /**********************************************************************
  * Function: Timer/Counter1 overflow interrupt
- * Purpose:  Increment counter value from 00 to 59.
+ * Purpose:  Increment counter value from 00 to 9999.
  **********************************************************************/
-ISR(TIMER1_OVF_vect)
+ISR(TIMER1_OVF_vect) // cnt0 - cnt4 act as counters, each of them iterates, when the previous... 
+                     // ... one overflows, interrupt1 gets triggered each second
 {
-    // WRITE YOUR CODE HERE
-
+	cnt0++;
+	if(cnt0 > 9) 
+	{
+		cnt0 = 0;
+		cnt1++;
+		if(cnt1 > 9)
+		{
+			cnt1 = 0;
+			cnt2++;
+			if(cnt2 > 9)
+			{
+				cnt2 = 0;
+				cnt3++;
+				if(cnt3 > 9) cnt3 = 0;
+			}
+		}
+	}
 }
-```
 
-```c
-/**********************************************************************
- * Function: Timer/Counter0 overflow interrupt
- * Purpose:  Display tens and units of a counter at SSD.
- **********************************************************************/
 ISR(TIMER0_OVF_vect)
 {
-    static uint8_t pos = 0;
-
-    // WRITE YOUR CODE HERE
-
+	cnt4++;
+	if(cnt4 > 3) cnt4 = 0;
+	switch(cnt4)  // each case is for one display position (0-3)
+	{
+		case 0: SEG_update_shift_regs(cnt0, cnt4);break;
+		case 1: SEG_update_shift_regs(cnt1, cnt4);break;
+		case 2: SEG_update_shift_regs(cnt2, cnt4);break;
+		case 3: SEG_update_shift_regs(cnt3, cnt4);break;
+		default: break;
+	}
 }
 ```
 
 3. Flowchart figure for function `SEG_clk_2us()` which generates one clock period on `SEG_CLK` pin with a duration of 2&nbsp;us. The image can be drawn on a computer or by hand. Use clear descriptions of the individual steps of the algorithms.
 
-   ![your figure]()
+   ![/Labs/05-segment/Flowchart.png](/Labs/05-segment/Flowchart.png)
 
 
 ### Kitchen alarm
