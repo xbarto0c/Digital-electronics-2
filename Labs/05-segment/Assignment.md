@@ -8,8 +8,8 @@ Link to your `Digital-electronics-2` GitHub repository:
 ### 7-segment library
 
 1. In your words, describe the difference between Common Cathode and Common Anode 7-segment display.
-   * CC SSD
-   * CA SSD
+   * CC SSD - pro zobrazení jedné číslice se v displeji nachází 7 LED diod + 1 na desetinnou tečku, katody všech diod jsou spojeny do jedné, aby se ušetřili piny
+   * CA SSD - pro zobrazení jedné číslice se v displeji nachází 7 LED diod + 1 na desetinnou tečku, anody všech diod jsou spojeny do jedné, aby se ušetřili piny
 
 2. Code listing with syntax highlighting of two interrupt service routines (`TIMER0_OVF_vect`, `TIMER1_OVF_vect`) from counter application with at least two digits, ie. values from 00 to 59:
 
