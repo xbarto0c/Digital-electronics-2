@@ -1,8 +1,8 @@
-# Lab 6: YOUR_FIRSTNAME FAMILYNAME
+# Lab 6: Jan Bartoň
 
 Link to your `Digital-electronics-2` GitHub repository:
 
-[https://github.com/your-github-account/repository-name/lab_name](https://github.com/...)
+[https://github.com/xbarto0c/Digital-electronics-2](https://github.com/xbarto0c/Digital-electronics-2)
 
 
 ### LCD display module
