@@ -8,11 +8,11 @@ Link to your `Digital-electronics-2` GitHub repository:
 ### LCD display module
 
 1. In your words, describe what ASCII table is.
-   * ASCII
+   * ASCII tabulka obsahuje sadu standardně používaných znaků a každému znaku přiřazuje kód, pomoci něhož se znak dá vyvolat - např. kód '065' odpovídá znaku 'A'.
 
 2. (Hand-drawn) picture of time signals between ATmega328P and LCD keypad shield (HD44780 driver) when transmitting three character data `De2`.
 
-   ![your figure]()
+   ![/Labs/06-lcd/LCD_kom.jpg](/Labs/06-lcd/LCD_kom.jpg)
 
 
 ### Stopwatch
@@ -42,4 +42,4 @@ Consider a kitchen alarm with an LCD, one LED and three push buttons: start, +1 
 
 1. Scheme of kitchen alarm; do not forget the supply voltage. The image can be drawn on a computer or by hand. Always name all components and their values.
 
-   ![your figure]()
+   ![/Labs/06-lcd/timer.jpg](/Labs/06-lcd/timer.jpg)
