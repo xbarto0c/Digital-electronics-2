@@ -15,6 +15,8 @@
 #include "timer.h"          // Timer library for AVR-GCC
 #include "lcd.h"            // Peter Fleury's LCD library
 #include <stdlib.h>         // C library. Needed for conversion function
+#include "GPIO.h"
+#define led_pin PB5
 
 /* Function definitions ----------------------------------------------*/
 /**********************************************************************
@@ -46,6 +48,8 @@ int main(void)
 	}
 	// Set DDRAM address
 	lcd_command(1 << LCD_DDRAM); // Pøepnutí se do pamìti se znaky
+	GPIO_config_output(&DDRB,led_pin);
+	GPIO_write_high(&PORTB,led_pin);
 	
 	// Display first custom character
 	lcd_putc(0);
@@ -77,6 +81,7 @@ int main(void)
     {
         /* Empty loop. All subsequent operations are performed exclusively 
          * inside interrupt service routines ISRs */
+		
     }
 
     // Will never reach this
@@ -107,6 +112,7 @@ ISR(TIMER1_OVF_vect)
 	   tens++;
 	   if (tens >= 10)
 	   {
+		   GPIO_write_low(&PORTB,led_pin);
 		   tens = 0;
 		   secs ++;
 		   
@@ -118,6 +124,7 @@ ISR(TIMER1_OVF_vect)
 		   
 		   if (secs >= 60) 
 		   {
+			   GPIO_write_high(&PORTB,led_pin);
 			   secs = 0;
 			   lcd_gotoxy(11,0);
 			   lcd_puts("   ");
