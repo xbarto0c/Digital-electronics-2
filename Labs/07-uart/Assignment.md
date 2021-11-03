@@ -1,8 +1,8 @@
-# Lab 7: YOUR_FIRSTNAME FAMILYNAME
+# Lab 7: Jan Bartoň
 
 Link to this file in your GitHub repository:
 
-[https://github.com/your-github-account/repository-name/lab_name](https://github.com/...)
+[https://github.com/xbarto0c/Digital-electronics-2/edit/main/Labs/07-uart/Assignment.md](https://github.com/xbarto0c/Digital-electronics-2/edit/main/Labs/07-uart/Assignment.md)
 
 
 ### Analog-to-Digital Conversion
@@ -11,12 +11,12 @@ Link to this file in your GitHub repository:
 
    | **Push button** | **PC0[A0] voltage** | **ADC value (calculated)** | **ADC value (measured)** |
    | :-: | :-: | :-: | :-: |
-   | Right  | 0&nbsp;V | 0   |  |
-   | Up     | 0.495&nbsp;V | 101 |  |
-   | Down   |       |     |  |
-   | Left   |       |     |  |
-   | Select |       |     |  |
-   | none   |       |     |  |
+   | Right  | 0&nbsp;V | 0   | 0 |
+   | Up     | 0.495&nbsp;V | 101 | 100 |
+   | Down   | 1.203&nbsp;V | 246 | 256 |
+   | Left   | 1.969&nbsp;V | 404 | 410 |
+   | Select | 3.182&nbsp;V | 651 | 640 |
+   | none   | 5.000&nbsp;V | 1023 | 1023 |
 
 2. Code listing of ACD interrupt service routine for sending data to the LCD/UART and identification of the pressed button. Always use syntax highlighting and meaningful comments:
 
