@@ -33,30 +33,31 @@ ISR(ADC_vect)
 
     value = ADC;                  // Copy ADC result to 16-bit variable
     itoa(value, lcd_string, 10);  // Convert decimal value to string
-	 lcd_gotoxy(8,0);
-	 lcd_puts("    ");
-	 lcd_gotoxy(8,0);
-	 lcd_puts(lcd_string);
-	 uart_puts("\033[4;32m");     // Zelené, podtržené
-	 uart_puts(lcd_string);
-	 uart_puts("\n");
-	 itoa(value, lcd_string, 16);
-	 lcd_gotoxy(13,0);
-	 lcd_puts("   ");
-	 lcd_gotoxy(13,0);
-	 lcd_puts(lcd_string);
-	 uart_puts(lcd_string);
-	 uart_puts("\n");
+    lcd_gotoxy(8,0);
+    lcd_puts("    ");
+    lcd_gotoxy(8,0);
+    lcd_puts(lcd_string);
+    uart_puts("\033[4;32m");     // Zelené, podtržené
+    uart_puts(lcd_string);
+    uart_puts("\n");
+    
+    itoa(value, lcd_string, 16); // Hexadecimální vyjádření měřené úrovně
+    lcd_gotoxy(13,0);
+    lcd_puts("   ");
+    lcd_gotoxy(13,0);
+    lcd_puts(lcd_string);
+    uart_puts(lcd_string);
+    uart_puts("\n");
 	
-	 lcd_gotoxy(8,1);
-	 lcd_puts("      ");
-	 lcd_gotoxy(8,1);
-	 if(value < 80) lcd_puts("RIGHT");     // Rozhodování o stisknutém tlačítku podle výstupu z AD převodníku
-	 else if (value > 80 && value < 230) lcd_puts("UP");
-	 else if (value > 230 && value < 390) lcd_puts("DOWN");
-	 else if (value > 390 && value < 600) lcd_puts("LEFT");
-	 else if (value > 600 && value < 900) lcd_puts("SELECT");
-	 else lcd_puts("NONE");
+    lcd_gotoxy(8,1);
+    lcd_puts("      ");
+    lcd_gotoxy(8,1);
+    if(value < 80) lcd_puts("RIGHT");     // Rozhodování o stisknutém tlačítku podle výstupu z AD převodníku
+    else if (value > 80 && value < 230) lcd_puts("UP");
+    else if (value > 230 && value < 390) lcd_puts("DOWN");
+    else if (value > 390 && value < 600) lcd_puts("LEFT");
+    else if (value > 600 && value < 900) lcd_puts("SELECT");
+    else lcd_puts("NONE");
 
 }
 ```
