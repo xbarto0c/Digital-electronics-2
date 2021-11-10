@@ -1,20 +1,20 @@
-# Lab 8: YOUR_FIRSTNAME LASTNAME
+# Lab 8: Jan Bartoň
 
 Link to this file in your GitHub repository:
 
-[https://github.com/your-github-account/repository-name/lab_name](https://github.com/...)
+[https://github.com/xbarto0c/Digital-electronics-2/edit/main/Labs/08-i2c/Assignment.md](https://github.com/xbarto0c/Digital-electronics-2/edit/main/Labs/08-i2c/Assignment.md)
 
 ### Arduino Uno pinout
 
 1. In the picture of the Arduino Uno board, mark the pins that can be used for the following functions:
-   * PWM generators from Timer0, Timer1, Timer2
-   * analog channels for ADC
-   * UART pins
-   * I2C pins
-   * SPI pins
-   * external interrupt pins INT0, INT1
+   * PWM generators from Timer0, Timer1, Timer2 - marked with blue colour
+   * analog channels for ADC - marked with orange colour
+   * UART pins - marked with red colour
+   * I2C pins - marked with green colour
+   * SPI pins - marked with yellow colour
+   * external interrupt pins INT0, INT1 - marked with purple colour
 
-   ![your figure](Images/arduino_uno_pinout.png)
+   ![/Labs/08-i2c/arduino_uno.png](/Labs/08-i2c/arduino_uno.png)
 
 ### I2C
 
@@ -40,6 +40,8 @@ ISR(TIMER1_OVF_vect)
     case STATE_IDLE:
         addr++;
         // If slave address is between 8 and 119 then move to SEND state
+		if (addr >= 8 && addr <= 119) state = STATE_SEND;
+		else addr = 7; 
 
         break;
     
@@ -56,13 +58,18 @@ ISR(TIMER1_OVF_vect)
         twi_stop();
         /* Test result from I2C bus. If it is 0 then move to ACK state, 
          * otherwise move to IDLE */
-
+		if (result) state = STATE_IDLE;
+		else state = STATE_ACK;
         break;
 
     // A module connected to the bus was found
     case STATE_ACK:
         // Send info about active I2C slave to UART and move to IDLE
-
+		uart_puts("address:");
+		itoa(addr,uart_string,16);
+		uart_puts(uart_string);
+		uart_puts("\n");
+		state = STATE_IDLE;
         break;
 
     // If something unexpected happens then move to IDLE
