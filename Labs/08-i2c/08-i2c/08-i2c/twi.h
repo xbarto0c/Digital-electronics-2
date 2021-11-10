@@ -45,7 +45,7 @@
  * @name Definition of frequencies 
  */
 #ifndef F_CPU
-# define F_CPU 16000000 /**< @brief CPU frequency in Hz required for delay */
+# define F_CPU 8000000 /**< @brief CPU frequency in Hz required for delay */
 #endif
 #define F_SCL 50000 /**< @brief TWI bit rate. Must be greater than 31000 */
 #define TWI_BIT_RATE_REG ((F_CPU/F_SCL - 16) / 2) /**< @brief TWI bit rate register value */
